@@ -1,0 +1,7 @@
+{
+  "name": "Comment on Gist",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
