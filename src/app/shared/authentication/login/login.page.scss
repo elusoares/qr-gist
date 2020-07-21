@@ -1,0 +1,52 @@
+ion-grid { //pra que ion-row se posicione no centro verticalmente, esses dois precisam ter height 100%
+    height: 100%;
+}
+
+ion-row { //como o display é flex, essa é a forma de alinhar no centro verticalmente
+    align-items: center;
+}
+
+h1, p, ion-button {
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Roboto Regular';
+}
+
+p {
+    text-align: justify;
+    font-size: 18px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+h1 {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 45px;
+    margin-bottom: 30px;
+}
+
+ion-item {
+    display: flex;
+}
+
+//para posicionar itens dentro de display block, precisa definir height
+.title {
+    height: 40%;
+    align-items: flex-end; //mudei o display de ion-item
+}
+
+ion-button {
+    --background: #2ea44f;
+    font-weight: bold;
+    color: white;
+    text-transform: none;
+    height: 90%;
+    width: 70%;
+    font-size: 18px;
+}
+
+ion-icon {
+    margin-right: 10px;
+}
+

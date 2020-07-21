@@ -1,7 +1,8 @@
 {
   "name": "Comment on Gist",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

@@ -1,0 +1,20 @@
+ion-toolbar{
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.nameAndLogin{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+#userName, #userLogin {
+    display: block;
+}
+
+#userName{
+    font-size: 20px;
+    
+}

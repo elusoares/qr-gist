@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Comment on Gist</string>
+    <string name="title_activity_main">Comment on Gist</string>
+    <string name="package_name">io.commentongist.starter</string>
+    <string name="custom_url_scheme">io.commentongist.starter</string>
+</resources>
