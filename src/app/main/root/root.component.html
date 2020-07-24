@@ -1,0 +1,44 @@
+<!-- <ion-header>
+  <ion-toolbar class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" (click)="openMenu()">
+        <ion-icon slot="icon-only" name="menu"></ion-icon>
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="titleWrapper">
+        <p>Comment on Gist</p>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<menu></menu>
+<ion-router-outlet id="main-menu-content"></ion-router-outlet>
+
+<ion-content>
+  <ion-router-outlet></ion-router-outlet>
+</ion-content> -->
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="qr-scanner">
+      <ion-icon name="qr-code"></ion-icon>
+      <ion-label>Scan</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="settings">
+      <ion-icon name="settings"></ion-icon>
+      <ion-label>Settings</ion-label>
+    </ion-tab-button>
+
+    <!-- <ion-tab-button tab="about">
+      <ion-icon name="information-circle"></ion-icon>
+      <ion-label>About</ion-label>
+    </ion-tab-button> -->
+  </ion-tab-bar>
+</ion-tabs>
