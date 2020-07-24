@@ -1,0 +1,23 @@
+ion-header {
+    height: 40%;
+}
+
+ion-toolbar {
+    height: 100%;
+    --background: black;
+}
+
+ion-thumbnail {
+    --size: 25%;
+    --border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3%;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}

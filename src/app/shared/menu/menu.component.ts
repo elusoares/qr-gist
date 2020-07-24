@@ -10,6 +10,7 @@ import { AuthenticationService } from '../authentication/authentication-service/
 export class MenuComponent implements OnInit {
   userName: string;
   userEmail: string;
+  userphoto: string;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -24,15 +25,16 @@ export class MenuComponent implements OnInit {
   }
 
   getUserData() {
-    this.authenticationService.userData()
+    /* this.authenticationService.()
       .then((user) => {
         console.log(user);
         this.userEmail = user.email;
         this.userName = user.displayName;
+        this.userphoto = user.photoURL;
       })
       .catch((error) => {
         console.log(error);
-      });
+      }); */
   }
 
   logout() {

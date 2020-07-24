@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
@@ -13,11 +16,9 @@ import { AngularFireModule } from '@angular/fire';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
-import { HttpClientModule } from '@angular/common/http';
 import { MainModule } from './main/main.module';
 import { firebaseConfig } from 'src/environments/environment';
 import { AuthenticationGuard } from './shared/authentication/authentication-guard/authentication.guard';
-import { LoginGuard } from './shared/authentication/login-guard/login.guard';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { LoginGuard } from './shared/authentication/login-guard/login.guard';
     BrowserModule,
     IonicModule.forRoot(),
     HttpClientModule,
+    IonicStorageModule.forRoot(),
     AngularFireAuthModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AppRoutingModule,
@@ -39,7 +41,7 @@ import { LoginGuard } from './shared/authentication/login-guard/login.guard';
     SplashScreen,
     InAppBrowser,
     AuthenticationGuard,
-    LoginGuard,
+    BarcodeScanner,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [

@@ -2,19 +2,28 @@ ion-toolbar{
     height: 100px;
     display: flex;
     align-items: center;
+    --background: black;
+    color: white;
 }
 
 .nameAndLogin{
-    display: inline-block;
-    vertical-align: middle;
     margin-left: 10px;
 }
+
+.nameAndLogin, ion-avatar{
+    display: inline-block;
+    vertical-align: middle;
+}
+
 
 #userName, #userLogin {
     display: block;
 }
 
 #userName{
-    font-size: 20px;
-    
+    font-size: 25px;
+}
+
+ion-avatar{
+    margin-left: 16px;
 }

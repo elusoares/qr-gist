@@ -7,6 +7,9 @@
         "statements"
       ]
     },
+    "no-string-literal": false,
+    "object-literal-shorthand": false,
+    "no-trailing-whitespace": false,
     "array-type": false,
     "arrow-return-shorthand": true,
     "curly": true,
@@ -23,12 +26,12 @@
       "camelCase"
     ],
     "component-selector": [
-      true,
+      false,
       "element",
       "app",
       "kebab-case"
     ],
-    "eofline": true,
+    "eofline": false,
     "import-blacklist": [
       true,
       "rxjs/Rx"
@@ -116,7 +119,8 @@
       "options": [
         "ban-keywords",
         "check-format",
-        "allow-pascal-case"
+        "allow-pascal-case",
+        "allow-snake-case"
       ]
     },
     "whitespace": {

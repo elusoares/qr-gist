@@ -18,7 +18,9 @@ export class AppComponent {
     private statusBar: StatusBar
   ) {
     this.initializeApp();
-    firebase.initializeApp(firebaseConfig);
+    // tive que inicializar o firebase aqui tmb pq deu erro
+    // ou seja, ta inicializando com o angularfire e com esse 
+    firebase.initializeApp(firebaseConfig); 
     
   }
 

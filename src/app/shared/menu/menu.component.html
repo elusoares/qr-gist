@@ -1,6 +1,9 @@
 <ion-menu side="start" menuId="main-menu" contentId="main-menu-content" persistent=true>
   <ion-header>
     <ion-toolbar> 
+      <ion-avatar>
+        <img [src]="userphoto">
+      </ion-avatar>
       <div class="nameAndLogin">
         <ion-label id="userName">{{userName}}</ion-label>
         <ion-label id="userLogin">{{userEmail}}</ion-label>

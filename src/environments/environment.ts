@@ -16,6 +16,12 @@ export const firebaseConfig = {
   appId: '1:468021256961:web:b1c93296f9cc7457d53100'
 };
 
+export const githubConfig = {
+  client_id: '044c62189110d6c5765b',
+  client_secret: 'a1684b3dfd0a702f4c8594360a67f3d71ec73793',
+  scope: ['user', 'gist']
+};
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

@@ -7,10 +7,6 @@ ion-toolbar {
   font-weight: bold;
 }
 
-ion-fab-button {
-  --background: #2ea44f;
-}
-
-p {
-  text-align: justify;
+ion-tab-button {
+  --color-selected: #2ea44f;
 }
