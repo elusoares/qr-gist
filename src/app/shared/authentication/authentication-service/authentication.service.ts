@@ -1,23 +1,28 @@
 import { Injectable } from '@angular/core';
 
-import { AngularFireAuth } from '@angular/fire/auth';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
+
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { take, map, switchMap, flatMap } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
-import { BehaviorSubject, Observable, from, of, Subscription, Subject } from 'rxjs';
 import { Platform } from '@ionic/angular';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { take, map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, from, of, Subscription, Subject } from 'rxjs';
+import { File } from '@ionic-native/file/ngx';  
+
 import UserData from '../user-data';
+import ServerData from '../server-data';
+import { LoaderService } from '../../loader-service/loader.service';
 
 const TOKEN_KEY = 'oauth-token';
 const USER_KEY = 'oauth-user';
+const AVATAR_KEY = 'oauth-avatar';
 const SERVER = 'http://192.168.0.103:3000';
 @Injectable({
   providedIn: 'root'
 })
+// segui esse tutorial: https://devdactic.com/ionic-4-jwt-login/
+// sei que tem muita coisa embolada aqui, eu realmente estou aprendendo enquanto faço
 export class AuthenticationService {
   private code: Subject<any>;
   private token: Observable<any>;
@@ -27,20 +32,15 @@ export class AuthenticationService {
   constructor(
     private inAppBrowser: InAppBrowser,
     private httpClient: HttpClient,
-    private angularFireAuth: AngularFireAuth,
     private storage: Storage, 
     private platform: Platform,
-    private router: Router 
+    private file: File,
+    private router: Router,
+    private loaderService: LoaderService
   ) {
-    /* firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        user.getIdToken().then((token) => {
-          console.log(token);
-
-        });
-      }
-    }); */
+    // aqui cria uma especie de observable onde dados podem ser injetados depois, pelo que entendi
     this.code = new Subject();
+    // aqui inicializa os observables de token e de user
     this.loadStoredToken();  
     this.loadStoredUser();
   }
@@ -85,121 +85,120 @@ export class AuthenticationService {
 
 
   authenticationGithub() {
-    let browser = this.inAppBrowser.create('https://github.com/login/oauth/authorize?client_id=044c62189110d6c5765b'); 
-    let listener = browser.on('loadstart')
+    // usa o inapp browser pra abrir o link de autenticaçao da api
+    // nao me parece certo enviar o client_id da aplicaçao cliente, mas é o que consegui fazer funcionar
+    const browser = this.inAppBrowser.create('https://github.com/login/oauth/authorize?client_id=044c62189110d6c5765b'); 
+    // a url de call back da api é a pagina de login 
+    // entao fica esperando a url mudar pra localhost pra pegar o code
+    const listener = browser.on('loadstart')
       .subscribe((event) => {
         const url = event.url;
-        console.log(url);
+        // se a url mudar e se tratar do callback
         if (url.includes('localhost')) {
-          console.log('é localhost');
+          // ai coloca o code la na variavel que eh um observable
           this.code.next(url.split('=')[1]);
           this.code.complete();
           listener.unsubscribe();
+          // fecha a janela
           browser.close();
-        } else {
-          console.log('n eh localhost');
-        }
+        } 
       });
   }
 
+  // retorna o observable de code
   getCode() {
     return this.code;
   }
 
-  getGithubToken(code: string) {
-    console.log('cheguei aqui');
+  // busca o token por intermedio do servidor node
+  getGithubToken(code: string): Observable<UserData> {
+    // mostra o loader
+    this.loaderService.showLoader();
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const params = new HttpParams().set('code', code);
     const options = {headers, params};
 
     return this.httpClient.get(`${SERVER}/get-token`, options).pipe(
       take(1),
-      map(res => {
+      map<ServerData, ServerData>(data => {
         // Extract data
-        console.log(res);
-        const storageObs = from(this.storage.set(TOKEN_KEY, res['token']));
-        return res;
+        return data;
       }),
       // aqui a ideia seria armazenar os dados antes de retornar o observable. 
-      // acho que a forma que to armazenando nao ta correta, mas é o que funciona
+      // acho que a forma que to armazenando nao ta correta, mas é o que funciona hehe
       switchMap(data => {
-        console.log(data);
-        this.tokenData.next(data['token']);
-        this.userData.next(data['data']);
+        this.tokenData.next(data.token);
+        this.userData.next(data.user);
         // queria armazenar separado
         const storageObs = from(
-          this.storage.set(TOKEN_KEY, data['token'])
+          this.storage.set(TOKEN_KEY, data.token)
           .then((value) => {
-            return this.storage.set(USER_KEY, data['data']);
-          }));
+            return this.storage.set(USER_KEY, data.user);
+          })
+        );
         return storageObs;
       })
     );
   }
 
+  // acessar a profile picture com o link que a api retorna as vezes demora
+  // entao resolvi armazenar o proprio arquivo localmente
+  // nao usei o plugin file pq o plugin storage funcionou hehe
+  downloadUserProfilePicture(url: string) {
+    return this.httpClient.get(url, {responseType: 'blob'})
+      .pipe(
+        take(1),
+        map(image => {
+          return image;
+        }),
+        switchMap(image => {
+          // aqui apenas para fim de testar
+          // quando executo no browser, nao consigo salvar usando o plugin file pois dá um erro de:
+          // it was determined that certain files are unsafe for access within a web application...
+          // entao no browser salvo usando o plugin storage
+          // ja no android, nao consegui recuperar a imagem usando o storage, mas com o file sim
+          if (this.platform.is('android')) {
+            return this.file.writeFile(this.file.dataDirectory, 'avatar', image, {replace: true});      
+          } else {
+            return this.storage.set(AVATAR_KEY, image);    
+          }
+        })
+      );
+  }
+
+  // retorna o arquivo blob da imagem
+  getAvatar() {
+    return this.storage.get('avatar');
+  }
   
-  getTokenData() {
-    return this.tokenData.getValue();
-  }
-
-  getUserData(): UserData {
-    return this.userData.getValue();
-  }
-
+  // retorna o observable do token
   tokenGuard() {
     return this.token;
   }
 
+  // retorna o observable do usuario (nome e link do avatar)
   userGuard() {
     return this.user;
   }
  
+  // desloga
   logout() {
     this.storage.remove(TOKEN_KEY)
       .then((value) => {
+        this.tokenData.next(null);
         return this.storage.remove(USER_KEY);
       })
       .then((value) => {
+        this.userData.next(null);
+        if (this.platform.is('android')) {
+          return this.file.removeFile(this.file.dataDirectory, 'avatar');
+        } else {
+          return this.storage.remove(AVATAR_KEY);
+        }
+      })
+      .then((value) => {
+        // depois de remover os dados, vai pra login
         this.router.navigateByUrl('/login');
-        this.tokenData.next(null);
       });
-  }
-
-  authenticationGithubOld() { // autentica no github com escopo gist
-    // eu estava usando o código comentado abaixo, mas o then de signInWithRedirect nunca executava
-    // entao getRedirectResult nunca era lido, não consegui descobrir porquê
-    return this.angularFireAuth.signInWithRedirect(new firebase.auth.GithubAuthProvider().addScope('gist'));
-    /* return new Promise((resolve, reject) => {
-      this.angularFireAuth.signInWithRedirect(new firebase.auth.GithubAuthProvider().addScope('gist'))
-        .then(() => {
-          this.angularFireAuth.getRedirectResult()
-            .then((result) => {
-              console.log('user true');
-              resolve(result);
-            })
-            .catch((error) => {
-              console.log(error);
-              reject(error);
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-          reject(error);
-        });
-    }); */
-
-
-  }
-
-  userState() { // retorna um observable pra verificar se tem usuário logado ou não
-    return this.angularFireAuth.authState;
-  }
-
-  /* userData() { // retorna os dados do usuário logado
-    return this.angularFireAuth.currentUser;
-  } */
-
-  signOut() { // desloga
-    return this.angularFireAuth.signOut();
   }
 }

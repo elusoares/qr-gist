@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,7 +9,6 @@ import { Router } from '@angular/router';
 export class RootComponent implements OnInit {
 
   constructor(
-    // private menu: MenuController,
     private router: Router
   ) { 
     
@@ -19,15 +17,5 @@ export class RootComponent implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.goToHome();
-  }
-  /* openMenu() {
-    console.log('cliquei open menu');
-    this.menu.enable(true, 'main-menu');
-    this.menu.open('main-menu');
-  } */
-
-  goToHome() {
-    // this.router.navigate(['/home']);
   }
 }

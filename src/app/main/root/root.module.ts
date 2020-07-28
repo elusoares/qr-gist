@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RootComponent } from './root.component';
 import { IonicModule } from '@ionic/angular';
-import { MenuModule } from 'src/app/shared/menu/menu.module';
 
 
 
@@ -12,8 +11,7 @@ import { MenuModule } from 'src/app/shared/menu/menu.module';
   ],
   imports: [
     CommonModule,
-    IonicModule,
-    MenuModule
+    IonicModule
   ],
   exports: [
     RootComponent

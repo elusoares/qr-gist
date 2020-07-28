@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { QrScannerService } from './qr-scanner.service';
+import { LoaderService } from './loader.service';
 
-describe('QrScannerService', () => {
-  let service: QrScannerService;
+describe('LoaderService', () => {
+  let service: LoaderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(QrScannerService);
+    service = TestBed.inject(LoaderService);
   });
 
   it('should be created', () => {

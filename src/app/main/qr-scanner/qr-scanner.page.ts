@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner, BarcodeScannerOptions, BarcodeScanResult } from '@ionic-native/barcode-scanner/ngx';
 import { Router, NavigationExtras } from '@angular/router';
 import { ModalController, AlertController } from '@ionic/angular';
-import { QrScannerService } from 'src/app/shared/qr-scanner.service';
 import { OpenGistPage } from '../open-gist/open-gist.page';
 
 @Component({
@@ -19,10 +18,8 @@ export class QrScannerPage implements OnInit {
     // usei BarcodeScanner porque o QRScanner tava muito chato de configurar
     // ficava se escondendo atras da pagina, tinha que usar window pra aplicar uma class css
     private barcodeScanner: BarcodeScanner,
-    private qrScannerService: QrScannerService,
     public modalController: ModalController,
-    private alertController: AlertController,
-    private router: Router
+    private alertController: AlertController
   ) { 
     this.options = {
       prompt: 'Place a QR Code inside the viewfinder rectangle',

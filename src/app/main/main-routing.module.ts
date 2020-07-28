@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthenticationGuard } from '../shared/authentication/authentication-guard/authentication.guard';
-import { HomePage } from './home/home.page';
 import { RootComponent } from './root/root.component';
 
 const routes: Routes = [
@@ -34,8 +33,8 @@ const routes: Routes = [
         loadChildren: () => import('./open-gist/open-gist.module').then( m => m.OpenGistPageModule)
       }, */
       {
-        path: 'settings',
-        loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
+        path: 'profile',
+        loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
       },
     ],
     canActivate: [

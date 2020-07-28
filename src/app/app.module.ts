@@ -9,9 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { IonicStorageModule } from '@ionic/storage';
-
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireModule } from '@angular/fire';
+import { File } from '@ionic-native/file/ngx';  
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,8 +28,6 @@ import { AuthenticationGuard } from './shared/authentication/authentication-guar
     IonicModule.forRoot(),
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    AngularFireAuthModule,
-    AngularFireModule.initializeApp(firebaseConfig),
     AppRoutingModule,
     MainModule,
     SharedModule
@@ -41,7 +37,8 @@ import { AuthenticationGuard } from './shared/authentication/authentication-guar
     SplashScreen,
     InAppBrowser,
     AuthenticationGuard,
-    BarcodeScanner,
+    File,
+    BarcodeScanner,  
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [

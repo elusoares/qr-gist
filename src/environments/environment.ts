@@ -7,13 +7,13 @@ export const environment = {
 };
 
 export const firebaseConfig = {
-  apiKey: 'AIzaSyCbq08vLFf1-lmKIHr7UuoezHFdmwMbHHM',
-  authDomain: 'comment-on-gist.firebaseapp.com',
-  databaseURL: 'https://comment-on-gist.firebaseio.com',
-  projectId: 'comment-on-gist',
-  storageBucket: 'comment-on-gist.appspot.com',
-  messagingSenderId: '468021256961',
-  appId: '1:468021256961:web:b1c93296f9cc7457d53100'
+  apiKey: 'AIzaSyBTPWLX9Bj9RrZt-fuApqpJaSfAxEwuDEk',
+  authDomain: 'qrgist.firebaseapp.com',
+  databaseURL: 'https://qrgist.firebaseio.com',
+  projectId: 'qrgist',
+  storageBucket: 'qrgist.appspot.com',
+  messagingSenderId: '56203884457',
+  appId: '1:56203884457:web:7f5dcee98207406a0576b8'
 };
 
 export const githubConfig = {
