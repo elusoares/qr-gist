@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../authentication-service/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AlertController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { map, switchMap } from 'rxjs/operators';
+
+import { AuthenticationService } from '../authentication-service/authentication.service';
 import { LoaderService } from '../../loader-service/loader.service';
 
 @Component({
@@ -26,7 +27,6 @@ export class LoginPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.getUrlParams();
     
     
   }
@@ -38,49 +38,31 @@ export class LoginPage implements OnInit {
     // aqui vai se inscrever nesse observer pra receber o valor do codigo
     this.authenticationService.getCode()
       .subscribe((code) => {
+        console.log('de login page');
         console.log(code);
-        
         this.getTokenandUserData(code);
-      });
-  }
-
-  getUrlParams() {
-    // se inscreve pra receber parametros na url, que no caso
-    // é o codigo do callback do github 
-    this.activatedRoute.queryParams.subscribe((param) => {
-      // ai depois que recebe o codigo, vai fazer uma requisiçao
-      // pro servidor enviando o codigo, e ai ele faz a requisiçao pro
-      // github pra receber o token e mandar de volta pra ca
-      // tudo isso pq acessando a api do github direto tenho erro de cors policy 
-      // e nao sei lidar com isso agora
-      if (Object.keys(param).length > 0) {
-        this.code = param.code;
-        // requisiçao pro servidor para obter token e tambem user data
-        this.getTokenandUserData(this.code);        
-      } else {
-      }
-    });
+      },
+    (error) => console.log(error));
   }
 
   getTokenandUserData(code: string) {
     this.authenticationService.getGithubToken(code)
     .pipe(
-      map(user => {
-        return user;
+      map((userData) => {
+        return userData.avatar_url;
       }),
-      switchMap(user => {
-        // quando receber os dados do servidor, vai armazenar a foto do usuario
-        return this.authenticationService.downloadUserProfilePicture(user.avatar_url);
+      switchMap((avatarUrl) => {
+        return this.authenticationService.downloadUserProfilePicture(avatarUrl);
       })
     )
       .subscribe((value) => {
-        // ai esconde o loader e vai pra home
+        console.log(value);
         this.loaderService.hideLoader();
         this.router.navigate(['/root/home']);
       },
       (error) => {
         console.log(error);
-        // testa se ha um erro da api
+        this.loaderService.hideLoader();
         if (error.status === 401) {
           this.presentAlert('Ops...', 'Your credentials are not valid.');
         }

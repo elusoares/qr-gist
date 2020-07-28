@@ -32,7 +32,8 @@
     "@ionic/angular": "^5.0.0",
     "@ionic/storage": "^2.2.0",
     "cordova-android": "^9.0.0",
-    "cordova-browser": "6.0.0",
+    "cordova-plugin-androidx": "^2.0.0",
+    "cordova-plugin-androidx-adapter": "^1.1.1",
     "cordova-plugin-browsertab": "0.2.0",
     "cordova-plugin-buildinfo": "4.0.0",
     "cordova-plugin-compat": "1.2.0",
@@ -97,7 +98,6 @@
       "cordova-plugin-file": {}
     },
     "platforms": [
-      "browser",
       "android"
     ]
   }

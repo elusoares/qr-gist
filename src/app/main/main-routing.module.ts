@@ -17,21 +17,11 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
-        /* canActivate: [
-          AuthenticationGuard
-        ] */
       },
       {
         path: 'qr-scanner',
         loadChildren: () => import('./qr-scanner/qr-scanner.module').then( m => m.QrScannerPageModule),
-        /* canActivate: [
-          AuthenticationGuard
-        ] */
       },
-      /* {
-        path: 'open-gist',
-        loadChildren: () => import('./open-gist/open-gist.module').then( m => m.OpenGistPageModule)
-      }, */
       {
         path: 'profile',
         loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)

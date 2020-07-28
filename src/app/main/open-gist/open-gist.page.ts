@@ -18,9 +18,6 @@ export class OpenGistPage implements OnInit {
 
   ngOnInit() {
     console.log(this.gistId);
-    /* this.authenticationService.userState.then((user) => {
-      console.log(user.getIdToken);
-    }); */
   }
 
   close() {

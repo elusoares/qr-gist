@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Storage } from '@ionic/storage';
 import { Platform } from '@ionic/angular';
@@ -18,6 +17,7 @@ const TOKEN_KEY = 'oauth-token';
 const USER_KEY = 'oauth-user';
 const AVATAR_KEY = 'oauth-avatar';
 const SERVER = 'http://192.168.0.103:3000';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -29,6 +29,9 @@ export class AuthenticationService {
   private user: Observable<UserData>;
   private tokenData = new BehaviorSubject(null);
   private userData = new BehaviorSubject(null);
+  private codeBS =  new BehaviorSubject(null);
+  private codeO: Observable<any>;
+  codeurl: string;
   constructor(
     private inAppBrowser: InAppBrowser,
     private httpClient: HttpClient,
@@ -43,21 +46,45 @@ export class AuthenticationService {
     // aqui inicializa os observables de token e de user
     this.loadStoredToken();  
     this.loadStoredUser();
+    this.loadStoredCode();
   }
 
   loadStoredToken() {
     // from converte promise para observable
-    const platformObs = from(this.platform.ready());
- 
+    const platformObs = from(this.platform.ready()); 
     this.token = platformObs.pipe(
       switchMap(() => {
         return from(this.storage.get(TOKEN_KEY));
       }),
       map(data => {
         if (data) {
+          console.log(data);
+          console.log('tem token');
           this.tokenData.next(data);
           return true;
         } else {
+          console.log('nao tem token');
+          return null;
+        }
+      })
+    );
+  }
+
+  loadStoredCode() {
+    // from converte promise para observable
+    const platformObs = from(this.platform.ready()); 
+    this.codeO = platformObs.pipe(
+      switchMap(() => {
+        return from(this.storage.get('code'));
+      }),
+      map(data => {
+        if (data) {
+          console.log(data);
+          console.log('tem code');
+          this.codeBS.next(data);
+          return true;
+        } else {
+          console.log('nao tem code');
           return null;
         }
       })
@@ -65,18 +92,19 @@ export class AuthenticationService {
   }
 
   loadStoredUser() {
-    // from converte promise para observable
-    const platformObs = from(this.platform.ready());
- 
+    const platformObs = from(this.platform.ready()); 
     this.user = platformObs.pipe(
       switchMap(() => {
         return from(this.storage.get(USER_KEY));
       }),
       map(data => {
         if (data) {
+          console.log(data);
+          console.log('tem userdata');
           this.userData.next(data);
           return data;
         } else {
+          console.log('nao tem token');
           return null;
         }
       })
@@ -91,23 +119,44 @@ export class AuthenticationService {
     // a url de call back da api é a pagina de login 
     // entao fica esperando a url mudar pra localhost pra pegar o code
     const listener = browser.on('loadstart')
+    /* .pipe(
+      map(event => {
+        return event.url;
+      }),
+      switchMap(url => {
+        if (url.includes('localhost')) {
+          console.log('localhost');
+          this.code.next(url.split('=')[1]);
+          this.code.complete();
+          this.codeBS.next(url);
+          browser.close();
+          return this.storage.set('code', url);
+        }
+      })
+    ) */
       .subscribe((event) => {
+        console.log(event);
         const url = event.url;
+        console.log(url);
         // se a url mudar e se tratar do callback
         if (url.includes('localhost')) {
           // ai coloca o code la na variavel que eh um observable
           this.code.next(url.split('=')[1]);
           this.code.complete();
+          this.codeBS.next(url);
           listener.unsubscribe();
           // fecha a janela
           browser.close();
         } 
       });
+
+    
   }
 
   // retorna o observable de code
   getCode() {
     return this.code;
+    // return this.storage.get('code');
   }
 
   // busca o token por intermedio do servidor node
@@ -143,7 +192,6 @@ export class AuthenticationService {
 
   // acessar a profile picture com o link que a api retorna as vezes demora
   // entao resolvi armazenar o proprio arquivo localmente
-  // nao usei o plugin file pq o plugin storage funcionou hehe
   downloadUserProfilePicture(url: string) {
     return this.httpClient.get(url, {responseType: 'blob'})
       .pipe(

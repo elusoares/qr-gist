@@ -3,34 +3,10 @@
     <ion-thumbnail>
       <ion-img [src]="userPhoto"></ion-img>
     </ion-thumbnail>
-    <!-- <div class="nameAndLogin"> -->
       <h1 id="userName">{{userName}}</h1>
-      <!-- <ion-label id="userLogin">{{userEmail}}</ion-label> -->
-    <!-- </div> -->
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <!-- <ion-grid>
-    <ion-row class="userAvatar">
-      <ion-col>
-        <ion-thumbnail slot="start">
-          <ion-img [src]="userPhoto"></ion-img>
-        </ion-thumbnail>
-          <ion-avatar>
-            <img [src]="userPhoto">
-          </ion-avatar>
-
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-button (click)="logout()">
-          Logout
-        </ion-button>
-
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
   <ion-list>
       <ion-item-group>
         <ion-item lines="none" (click)="logout()">
@@ -39,7 +15,4 @@
         </ion-item>
       </ion-item-group>
   </ion-list>
-  <!-- <ion-button (click)="logout()">
-    Logout
-  </ion-button> -->
 </ion-content>

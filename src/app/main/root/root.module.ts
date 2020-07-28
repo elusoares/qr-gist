@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RootComponent } from './root.component';
 import { IonicModule } from '@ionic/angular';
+import { RootComponent } from './root.component';
+
 
 
 

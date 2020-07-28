@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { BarcodeScanner, BarcodeScannerOptions, BarcodeScanResult } from '@ionic-native/barcode-scanner/ngx';
 import { NavigationExtras } from '@angular/router';
+import { BarcodeScanner, BarcodeScannerOptions, BarcodeScanResult } from '@ionic-native/barcode-scanner/ngx';
 import { ModalController, AlertController } from '@ionic/angular';
 import { OpenGistPage } from '../open-gist/open-gist.page';
 import { AuthenticationService } from 'src/app/shared/authentication/authentication-service/authentication.service';
