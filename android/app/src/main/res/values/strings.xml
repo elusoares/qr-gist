@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">qrGist</string>
+    <string name="title_activity_main">qrGist</string>
+    <string name="package_name">io.qrgist.starter</string>
+    <string name="custom_url_scheme">io.qrgist.starter</string>
+</resources>

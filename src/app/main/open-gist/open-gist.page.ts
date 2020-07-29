@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BarcodeScanResult } from '@ionic-native/barcode-scanner/ngx';
 import { ModalController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/shared/authentication/authentication-service/authentication.service';
+import { GistService } from 'src/app/shared/gist-service/gist.service';
 
 @Component({
   selector: 'open-gist',
@@ -14,10 +15,18 @@ export class OpenGistPage implements OnInit {
   constructor(
     public modalController: ModalController,
     private authenticationService: AuthenticationService,
+    private gistService: GistService
   ) { }
 
   ngOnInit() {
     console.log(this.gistId);
+  }
+
+  ionViewWillEnter() {
+    this.gistService.getGist(this.gistId)
+      .subscribe((gist) => {
+        console.log(gist);
+      });
   }
 
   close() {

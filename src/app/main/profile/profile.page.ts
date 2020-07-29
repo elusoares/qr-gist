@@ -37,10 +37,18 @@ export class ProfilePage implements OnInit {
   getUserAvatar() {
     // se for android, usa o plugin file pra ler a foto
     if (this.platform.is('android')) {
-      this.file.readAsDataURL(this.file.dataDirectory, 'avatar')
+      /* this.file.readAsDataURL(this.file.dataDirectory, 'avatar')
         .then((url) => {
           this.userPhoto = url;
-        });
+        }); */
+      this.authenticationService.getAvatar()
+      .then((avatar) => {
+        const blob = new Blob([avatar], { type: 'image/jpeg' });
+        this.userPhoto =  URL.createObjectURL(blob);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     } else {
      // se nao, entao é o browser que to usando pra testar e o file nao ta funcionando la nao 
       this.authenticationService.getAvatar()

@@ -5,6 +5,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
   imports: [
     RouterModule.forRoot([])
   ],
-  exports: [RouterModule]
+  exports: [
+    RouterModule
+  ]
 })
 export class AppRoutingModule { }

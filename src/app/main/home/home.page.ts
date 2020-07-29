@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 import { BarcodeScanner, BarcodeScannerOptions, BarcodeScanResult } from '@ionic-native/barcode-scanner/ngx';
 import { ModalController, AlertController } from '@ionic/angular';
+
 import { OpenGistPage } from '../open-gist/open-gist.page';
 import { AuthenticationService } from 'src/app/shared/authentication/authentication-service/authentication.service';
+import { AlertService } from 'src/app/shared/alert-service/alert.service';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +24,7 @@ export class HomePage {
     private barcodeScanner: BarcodeScanner,
     public modalController: ModalController,
     private alertController: AlertController,    
+    private alertService: AlertService,
     private authenticationService: AuthenticationService
   ) {
     this.options = {
@@ -57,7 +60,7 @@ export class HomePage {
     this.barcodeScanner.scan(this.options).then(qrCodeData => {
       console.log('Barcode data', qrCodeData);
       const url = qrCodeData.text;
-      // maneira bem boba e nada eficiente de testar se o link é do github
+      // testa se o link é do github
       if (url !== '') {
         if (qrCodeData.text.includes('gist.github.com')) {
           const urlSplit = qrCodeData.text.split('/');
@@ -66,7 +69,7 @@ export class HomePage {
           this.presentModal();
         } else {
           // se nao, dá um recadinho pro usuario
-          this.presentAlert('Ops...', 'This is not a valid link.');
+          this.alertService.presentAlert('Ops...', 'This is not a valid link.');
         }
       }
      }).catch(err => {
@@ -83,17 +86,5 @@ export class HomePage {
       }
     });
     return await modal.present();
-  }
-
-  async presentAlert(header: string, message: string) {
-    const alert = await this.alertController.create({
-      // cssClass: 'my-custom-class',
-      header: header,
-      // subHeader: 'Subtitle',
-      message: message,
-      buttons: ['OK']
-    });
-
-    await alert.present();
   }
 }

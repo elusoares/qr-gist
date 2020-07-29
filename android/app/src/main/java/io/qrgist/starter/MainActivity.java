@@ -1,4 +1,4 @@
-package io.commentongist.starter;
+package io.qrgist.starter;
 
 import android.os.Bundle;
 

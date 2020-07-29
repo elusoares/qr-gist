@@ -29,8 +29,6 @@ export class AuthenticationService {
   private user: Observable<UserData>;
   private tokenData = new BehaviorSubject(null);
   private userData = new BehaviorSubject(null);
-  private codeBS =  new BehaviorSubject(null);
-  private codeO: Observable<any>;
   codeurl: string;
   constructor(
     private inAppBrowser: InAppBrowser,
@@ -46,7 +44,6 @@ export class AuthenticationService {
     // aqui inicializa os observables de token e de user
     this.loadStoredToken();  
     this.loadStoredUser();
-    this.loadStoredCode();
   }
 
   loadStoredToken() {
@@ -64,27 +61,6 @@ export class AuthenticationService {
           return true;
         } else {
           console.log('nao tem token');
-          return null;
-        }
-      })
-    );
-  }
-
-  loadStoredCode() {
-    // from converte promise para observable
-    const platformObs = from(this.platform.ready()); 
-    this.codeO = platformObs.pipe(
-      switchMap(() => {
-        return from(this.storage.get('code'));
-      }),
-      map(data => {
-        if (data) {
-          console.log(data);
-          console.log('tem code');
-          this.codeBS.next(data);
-          return true;
-        } else {
-          console.log('nao tem code');
           return null;
         }
       })
@@ -125,15 +101,20 @@ export class AuthenticationService {
       }),
       switchMap(url => {
         if (url.includes('localhost')) {
-          console.log('localhost');
-          this.code.next(url.split('=')[1]);
+          console.log('é localhost');
+          const codeData = url.split('=')[1];
+          console.log(codeData);
+          this.code.next(codeData);
           this.code.complete();
-          this.codeBS.next(url);
           browser.close();
-          return this.storage.set('code', url);
+          // return this.storage.set('code', url);
+          // return codeData;
+          // return this.code;
         }
       })
-    ) */
+    ); */
+    
+    // return listener;
       .subscribe((event) => {
         console.log(event);
         const url = event.url;
@@ -141,9 +122,10 @@ export class AuthenticationService {
         // se a url mudar e se tratar do callback
         if (url.includes('localhost')) {
           // ai coloca o code la na variavel que eh um observable
-          this.code.next(url.split('=')[1]);
+          const c = url.split('=')[1];
+          console.log(c);
+          this.code.next(c);
           this.code.complete();
-          this.codeBS.next(url);
           listener.unsubscribe();
           // fecha a janela
           browser.close();
@@ -206,7 +188,8 @@ export class AuthenticationService {
           // entao no browser salvo usando o plugin storage
           // ja no android, nao consegui recuperar a imagem usando o storage, mas com o file sim
           if (this.platform.is('android')) {
-            return this.file.writeFile(this.file.dataDirectory, 'avatar', image, {replace: true});      
+            return this.storage.set(AVATAR_KEY, image);  
+            // return this.file.writeFile(this.file.dataDirectory, 'avatar', image, {replace: true});      
           } else {
             return this.storage.set(AVATAR_KEY, image);    
           }
@@ -228,6 +211,10 @@ export class AuthenticationService {
   userGuard() {
     return this.user;
   }
+
+  tokenValue() {
+    return this.tokenData;
+  }
  
   // desloga
   logout() {
@@ -239,7 +226,8 @@ export class AuthenticationService {
       .then((value) => {
         this.userData.next(null);
         if (this.platform.is('android')) {
-          return this.file.removeFile(this.file.dataDirectory, 'avatar');
+          return this.storage.remove(AVATAR_KEY);
+          // return this.file.removeFile(this.file.dataDirectory, 'avatar');
         } else {
           return this.storage.remove(AVATAR_KEY);
         }

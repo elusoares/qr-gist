@@ -2,5 +2,10 @@
   <p class="ion-padding">Hey, {{userName}}! To get started, click the green button below to open the QR Code Scanner.
     <br/>To see the comments you already made, click the side menu, and then go to the "History" option.
   </p>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button size="large" (click)="scan()">
+      <ion-icon name="qr-code-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content> 
 

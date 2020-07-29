@@ -1,6 +1,6 @@
 {
-  "appId": "io.commentongist.starter",
-  "appName": "Comment on Gist",
+  "appId": "io.qrgist.starter",
+  "appName": "qrGist",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
@@ -12,7 +12,7 @@
   "cordova": {
     "preferences": {
       "ScrollEnabled": "false",
-      "android-minSdkVersion": "21",
+      "android-minSdkVersion": "22",
       "BackupWebStorage": "none",
       "SplashMaintainAspectRatio": "true",
       "FadeSplashScreenDuration": "300",
