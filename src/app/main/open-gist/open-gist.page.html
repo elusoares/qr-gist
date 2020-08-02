@@ -1,5 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/root/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
-  <ion-button slot="start" (click)="close()">
-    <ion-icon name="close-circle"></ion-icon>
-  </ion-button>
+  <ng-container *ngIf="dataIsLoaded">
+    <ion-item lines="none">
+      <div class="nameAndPhotoAndDate">
+        <div class="nameAndPhoto">
+          <ion-thumbnail>
+            <ion-img [src]="gistData.owner.avatar_url"></ion-img>
+          </ion-thumbnail>
+          <span id="userName">{{gistData.owner.name}}/{{gistData.file_title}}</span>
+        </div>
+        <span id="createdAt">created on {{gistData.created_at | date: 'longDate'}}</span>
+      </div>
+    </ion-item>
+    <ion-item class="fileTitle" lines="none">
+      <span>files:</span>
+    </ion-item>
+    <!-- <ion-content class="fileContent"> -->
+      <ion-list class="fileList" lines="none">
+        <ion-item *ngFor="let file of gistData.files">
+          <div class="fileNameAndType">
+            <h1>{{file.file_name}}</h1>
+            <h2>{{file.type}}</h2>
+          </div>
+        </ion-item>
+      </ion-list>
+    <!-- </ion-content> -->
+  </ng-container>
 </ion-content>

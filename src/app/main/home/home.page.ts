@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { BarcodeScanner, BarcodeScannerOptions, BarcodeScanResult } from '@ionic-native/barcode-scanner/ngx';
 import { ModalController, AlertController } from '@ionic/angular';
 
@@ -18,6 +18,7 @@ export class HomePage {
   navigationExtras: NavigationExtras;
   gotUrl: boolean;
   gistId: string;
+  ok: boolean;
   constructor(
     // usei BarcodeScanner porque o QRScanner tava muito chato de configurar
     // ficava se escondendo atras da pagina, tinha que usar window pra aplicar uma class css
@@ -25,12 +26,14 @@ export class HomePage {
     public modalController: ModalController,
     private alertController: AlertController,    
     private alertService: AlertService,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private router: Router
   ) {
     this.options = {
       prompt: 'Place a QR Code inside the viewfinder rectangle',
       formats: 'QR_CODE'
     };
+    this.ok = true;
   }
 
   ionViewWillEnter() {
@@ -55,6 +58,10 @@ export class HomePage {
       });
   }
 
+  scant() {
+    this.presentModal();
+  }
+
   scan() {
     // this.gotUrl = false;
     this.barcodeScanner.scan(this.options).then(qrCodeData => {
@@ -66,7 +73,8 @@ export class HomePage {
           const urlSplit = qrCodeData.text.split('/');
           // se for, pega a ultima parte do link que é o id
           this.gistId = urlSplit[urlSplit.length - 1];
-          this.presentModal();
+          this.router.navigate(['/root/home/open-gist', {gist_id: this.gistId}]);
+          // this.presentModal();
         } else {
           // se nao, dá um recadinho pro usuario
           this.alertService.presentAlert('Ops...', 'This is not a valid link.');

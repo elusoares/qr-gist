@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
-import { BarcodeScanResult } from '@ionic-native/barcode-scanner/ngx';
-import { ModalController } from '@ionic/angular';
-import { AuthenticationService } from 'src/app/shared/authentication/authentication-service/authentication.service';
+import { ActivatedRoute } from '@angular/router';
+import { map, switchMap } from 'rxjs/operators';
+
 import { GistService } from 'src/app/shared/gist-service/gist.service';
+import GistData from '../gist-data';
 
 @Component({
   selector: 'open-gist',
@@ -11,26 +11,37 @@ import { GistService } from 'src/app/shared/gist-service/gist.service';
   styleUrls: ['./open-gist.page.scss'],
 })
 export class OpenGistPage implements OnInit {
-  @Input() gistId: string;
+  gistData: GistData;
+  dataIsLoaded: boolean;
   constructor(
-    public modalController: ModalController,
-    private authenticationService: AuthenticationService,
-    private gistService: GistService
-  ) { }
+    private gistService: GistService,
+    private router: ActivatedRoute
+  ) {
+    this.gistData = new GistData();
+    this.dataIsLoaded = false;
+   }
+
 
   ngOnInit() {
-    console.log(this.gistId);
   }
 
   ionViewWillEnter() {
-    this.gistService.getGist(this.gistId)
-      .subscribe((gist) => {
-        console.log(gist);
-      });
+    // primeiro extraio o gist_id de route parameters
+    this.router.paramMap.pipe(
+      // ai retorna o gist_id para o proximo switchmap
+      map(params => {
+        return params.get('gist_id');
+      }),
+      // esse switchmap vai pegar o gist_id e passar para a funçao getGist
+      // de gistService, e ai retorna o observable
+      switchMap(gist_id => {
+        return this.gistService.getGist(gist_id);
+      })
+      // subscribe to the observable retornado pelo switchmap
+    ).subscribe((gist: any) => {
+      console.log(gist);
+      this.gistData = gist;
+      this.dataIsLoaded = true;
+    });
   }
-
-  close() {
-    this.modalController.dismiss();
-  }
-
 }

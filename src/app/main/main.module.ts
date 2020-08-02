@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MainRoutingModule } from './main-routing.module';
 import { RootModule } from './root/root.module';
+import { IonicModule } from '@ionic/angular';
 
 
 
@@ -10,6 +11,7 @@ import { RootModule } from './root/root.module';
   declarations: [],
   imports: [
     CommonModule,
+    IonicModule,
     RootModule,
     MainRoutingModule
   ]

@@ -1,0 +1,79 @@
+ion-toolbar {
+    --background: black;
+}
+
+ion-back-button {
+    --color: white;
+}
+
+.nameAndPhoto {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.nameAndPhotoAndDate {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.fileContent {
+    /* --padding-start: 10px;
+    --padding-end: 10px; */
+    height: 30%;
+}
+
+.fileTitle {
+    margin-top: 20px;
+    font-size: 22px;
+}
+
+.fileList {
+    padding-top: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    background: #EEEDE7;
+    border-radius: 10px;
+}
+
+// para todos os ion-item dentro de fileList
+.fileList > ion-item {
+    --background: #EEEDE7;
+}
+
+#userName {
+    margin-left: 5px;
+    color: #222831;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#createdAt, h2, .fileTitle {
+    color: #586069;
+}
+
+ion-thumbnail {
+    --border-radius: 50%;
+    --size: 33px;
+}
+
+h1, h2 {
+    margin: 0;
+    
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2ea44f;
+}
+
+h2 {
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+.fileNameAndType {
+    margin-top: 5px;
+    margin-bottom: 10px;
+ }

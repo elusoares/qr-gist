@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthenticationGuard } from '../shared/authentication/authentication-guard/authentication.guard';
 import { RootComponent } from './root/root.component';
+import { HomePage } from './home/home.page';
 
 const routes: Routes = [
   {
@@ -16,7 +17,20 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+          },
+          {
+            path: 'open-gist',
+            loadChildren: () => import('./open-gist/open-gist.module').then(m => m.OpenGistPageModule)
+          }
+        ] 
+      },
+      {
+        path: 'open-gist',
+        loadChildren: () => import('./open-gist/open-gist.module').then(m => m.OpenGistPageModule)
       },
       {
         path: 'qr-scanner',

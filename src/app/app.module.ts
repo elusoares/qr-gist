@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,6 +18,7 @@ import { SharedModule } from './shared/shared.module';
 import { MainModule } from './main/main.module';
 import { firebaseConfig } from 'src/environments/environment';
 import { AuthenticationGuard } from './shared/authentication/authentication-guard/authentication.guard';
+import { GistService } from './shared/gist-service/gist.service';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { AuthenticationGuard } from './shared/authentication/authentication-guar
   ],
   entryComponents: [],
   imports: [
+    CommonModule,
     BrowserModule,
     IonicModule.forRoot(),
     HttpClientModule,
@@ -38,7 +41,8 @@ import { AuthenticationGuard } from './shared/authentication/authentication-guar
     InAppBrowser,
     AuthenticationGuard,
     File,
-    BarcodeScanner,  
+    BarcodeScanner, 
+    GistService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [
