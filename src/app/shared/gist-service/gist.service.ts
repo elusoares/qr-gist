@@ -87,11 +87,11 @@ export class GistService {
             // em alguns comentarios, o user veio null
             if (c['user'] != null ) {
               const u = c['user'];
+              console.log(u);
               user.setData(u['login'], u['avatar_url']);
+              const comment = new GistComment(c['body'], user, c['created_at']);
+              gistComments.push(comment);
             }
-            const comment = new GistComment(c['body'], user, c['created_at']);
-            gistComments.push(comment);
-            
           }
           this.gistData.comments = gistComments;
           const gistBehavior = new BehaviorSubject(this.gistData);

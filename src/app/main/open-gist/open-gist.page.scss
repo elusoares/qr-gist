@@ -6,6 +6,11 @@ ion-back-button {
     --color: white;
 }
 
+ion-thumbnail {
+    --border-radius: 50%;
+    --size: 33px;
+}
+
 .nameAndPhoto {
     display: flex;
     align-items: center;
@@ -17,45 +22,73 @@ ion-back-button {
     width: 100%;
 }
 
-.fileContent {
-    /* --padding-start: 10px;
-    --padding-end: 10px; */
-    height: 30%;
-}
 
 .fileTitle {
     margin-top: 20px;
     font-size: 22px;
 }
 
-.fileList {
+.filesList {
     padding-top: 0;
     margin-left: 10px;
     margin-right: 10px;
-    background: #EEEDE7;
+    margin-top: 20px;
+    background: #F6F8FA;
     border-radius: 10px;
+    border: 1px;
+    border-style: solid;
+    border-color: #d1d5da;
 }
 
 // para todos os ion-item dentro de fileList
-.fileList > ion-item {
-    --background: #EEEDE7;
+.filesList > ion-item{
+    --background: #F6F8FA;
 }
 
-#userName {
+.userName {
     margin-left: 5px;
-    color: #222831;
     font-size: 28px;
     font-weight: bold;
 }
 
-#createdAt, h2, .fileTitle {
+.userName, .commentName {
+    color: #222831;
+}
+
+.commentName {
+    font-weight: bold;
+}
+
+.bodyWrapper {
+    margin-left: 15px;
+    width: 100%;
+    word-break: break-word;
+}
+
+.commentsHead {
+    background: #F6F8FA;
+    border: 1px;
+    border-style: solid;
+    border-color: #d1d5da;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+}
+
+.commentsBody {
+    border: 1px;
+    border-style: solid;
+    border-color: #d1d5da;
+    border-top: 0;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.createdAt, h2, .fileTitle, .commentsHead, .commentsBody {
     color: #586069;
 }
 
-ion-thumbnail {
-    --border-radius: 50%;
-    --size: 33px;
-}
 
 h1, h2 {
     margin: 0;
@@ -76,4 +109,19 @@ h2 {
 .fileNameAndType {
     margin-top: 5px;
     margin-bottom: 10px;
- }
+}
+
+.commentsList > ion-item {
+    display: flex;
+    align-items: start;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+p {
+    margin-top: 10px;
+}
+
+.commentsBody, .commentsHead {
+    padding: 8px;
+}
