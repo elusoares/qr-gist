@@ -5,8 +5,13 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content #content scrollEvents="true">
   <ng-container *ngIf="dataIsLoaded">
+    <ion-fab vertical="center" horizontal="end" slot="fixed" *ngIf="!atBottom">
+      <ion-fab-button size="small" (click)="goToPageBottom()">
+        <ion-icon name="chatbubble"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
     <ion-item lines="none">
       <div class="nameAndPhotoAndDate">
         <div class="nameAndPhoto">
@@ -44,7 +49,32 @@
           </div>
         </ion-item>
       </ion-list>
+      <ion-item-divider>
+      </ion-item-divider>
+
+      <ion-item lines="none">
+        <div class="commentsAvatars">
+          <ion-thumbnail class="commentsThumbnails">
+            <ion-img [src]="userPhoto"></ion-img>
+          </ion-thumbnail>
+        </div>
+        <div class="bodyWrapper">
+          <div class="commentsHead">
+            <span class="commentName">leave a comment</span>
+          </div>
+          <div class="commentsBody userCommentArea">
+            <ion-textarea inputmode="text" placeholder="..."></ion-textarea>
+          </div>
+        </div>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-button slot="end" (click)="postComment()">
+          Comment
+        </ion-button>
+      </ion-item>
   </ng-container>
+  
+  <!-- skeleton -->
   <ng-container *ngIf="!dataIsLoaded">
     <ion-item lines="none">
       <div class="nameAndPhotoAndDate">

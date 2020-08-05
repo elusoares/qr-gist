@@ -113,7 +113,7 @@ h2 {
 
 .commentsList > ion-item {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     margin-top: 15px;
     margin-bottom: 15px;
 }
@@ -125,3 +125,23 @@ p {
 .commentsBody, .commentsHead {
     padding: 8px;
 }
+
+ion-item-divider {
+    margin-bottom: 20px;
+}
+
+.userCommentArea {
+    height: 120px;
+}
+
+ion-button {
+    text-transform: none;
+    --background: #2ea44f;
+    height: 35px;
+    width: 90px;
+    font-size: 14px;
+}
+
+ion-fab-button {
+    --background: #2ea44f;
+  }
