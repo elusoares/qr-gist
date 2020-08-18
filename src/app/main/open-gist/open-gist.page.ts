@@ -16,22 +16,34 @@ export class OpenGistPage implements OnInit {
   // pegar a referencia de ion-contet para que seja possivel ir ao fim da pagina ao clicar
   // no fab-button
   @ViewChild('content') content: IonContent;
+  // armazena os dados do gist
   gistData: GistData;
   // essa flag fica verdadeira quando os dados sao carregados
   dataIsLoaded: boolean;
   // essa flag fica verdadeira quando o scroll atinge o bottom da page
   atBottom: boolean;
+  // armazena a url do avatar do usuario
   userPhoto: string;
+  // armazena o id do gist
+  gistId: string;
+  // armazena o comentario, pois não usei formulario
+  comment: string;
+  // se tiver escrevido alguma coisa o campo comentario, essa flag fica verdadeira e o botao ativado
+  notCommented: boolean;
   constructor(
     private authenticationService: AuthenticationService,
-    private platform: Platform,
     private gistService: GistService,
+    private platform: Platform,
     private router: ActivatedRoute
   ) {
     this.gistData = new GistData();
     this.dataIsLoaded = false;
     // essa flag vai iniciar verdadeira, e fica falsa comforme vai scrolling a pagina
     this.atBottom = true;
+    // inicializa a variavel de comentario
+    this.comment = '';
+    // inicializa a flag do botao comment
+    this.notCommented = true;
    }
 
 
@@ -39,8 +51,15 @@ export class OpenGistPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    // pega a foto do usuario
     this.getUserAvatar();
+    // pega os dados dos gist
     this.getData();
+    // observa o scroll para mostar/esconder o fabbutton
+    this.scroll();
+  }
+
+  scroll() {
     // aqui subscribe to ionscroll 
     this.content.ionScroll.subscribe(event => {
       // sempre testando se chegou no fim da pagina
@@ -50,6 +69,7 @@ export class OpenGistPage implements OnInit {
 
   // referencia:
   // https://stackoverflow.com/questions/60676745/angular-ionic-detect-if-ion-content-is-scrolled-maximum-bottom
+  // essa funcao verifica se o scroll está no top ou bottom da pagina
   async detectBottom() {
     const scrollElement = await this.content.getScrollElement(); // get scroll element
    // quando chega no fim da pagina, a flag atBottom fica verdadeira
@@ -67,12 +87,19 @@ export class OpenGistPage implements OnInit {
     // flag falsa: fab-buttom fica visível
   }
 
+  // ao clicar no fab-buttom, vai para o fim da pagina, onde fica a opcao de comentar
+  goToPageBottom() {
+    this.content.scrollToBottom(300);
+  }
+
   getData() {
     // primeiro extraio o gist_id de route parameters
     this.router.paramMap.pipe(
       // ai retorna o gist_id para o proximo switchmap
       map(params => {
-        return params.get('gist_id');
+        // armazena logo pra usar depois
+        this.gistId = params.get('gist_id');
+        return this.gistId;
       }),
       // esse switchmap vai pegar o gist_id e passar para a funçao getGist
       // de gistService, e ai retorna o observable
@@ -116,11 +143,29 @@ export class OpenGistPage implements OnInit {
   }
 
   postComment() {
-
+    const comment = this.comment;
+    this.comment = '';
+    this.gistService.postComment(this.gistId, comment)
+      .subscribe(
+        (value) => {
+          console.log(value);
+          this.getData();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
-  // ao clicar no fab-buttom, vai para o fim da pagina, onde fica a opcao de comentar
-  goToPageBottom() {
-    this.content.scrollToBottom(300);
+  
+
+  isCommented(): boolean {
+    /* if (this.comment === '') {
+      return false;
+    } else {
+      return true;
+    } */
+      
+    return this.comment === '' ? false : true;
   }
 }

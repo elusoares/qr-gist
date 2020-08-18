@@ -10,9 +10,9 @@ export class LoaderService {
     private loadingController: LoadingController
   ) { }
 
-  showLoader() {
+  showLoader(message: string) {
     this.loadingController.create({
-      message: 'Please wait...',
+      message: message,
       cssClass: 'my-loader'
     }).then((res) => {
       res.present();

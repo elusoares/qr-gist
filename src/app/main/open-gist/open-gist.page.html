@@ -63,12 +63,12 @@
             <span class="commentName">leave a comment</span>
           </div>
           <div class="commentsBody userCommentArea">
-            <ion-textarea inputmode="text" placeholder="..."></ion-textarea>
+            <ion-textarea inputmode="text" placeholder="..." [(ngModel)]="comment"></ion-textarea>
           </div>
         </div>
       </ion-item>
       <ion-item lines="none">
-        <ion-button slot="end" (click)="postComment()">
+        <ion-button slot="end" [disabled]="!isCommented()" (click)="postComment()">
           Comment
         </ion-button>
       </ion-item>

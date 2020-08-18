@@ -8,7 +8,7 @@ import GistFile from 'src/app/main/gist-file';
 import GistComment from 'src/app/main/gist-comment';
 import { Subject, BehaviorSubject } from 'rxjs';
 
-const SERVER = 'http://192.168.0.103:3000';
+const SERVER = 'http://192.168.0.104:3000';
 @Injectable({
   providedIn: 'root'
 })
@@ -115,6 +115,25 @@ export class GistService {
         const params = new HttpParams().set('token', token).set('gist_id', gistId);
         const options = {headers, params};
         return this.httpClient.get(`${SERVER}/get-comments`, options);
+      })
+    );
+  }
+
+  postComment(gistId: string, comment: string) {
+    // pega o token de authenticationService
+    return this.authenticationService.tokenValue()
+    .pipe(
+      map((token) => {
+        // retorna o token para o proximo switchmap
+        return token;
+      }),
+      // esse switchmap pega o token, prepara tudinho para fazer uma requisiçao ao servidor proxy,
+      // depois retorna o observable de postar o comment no servidor proxy
+      switchMap((token) => {
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        const params = new HttpParams().set('token', token).set('gist_id', gistId).set('comment', comment);
+        const options = {headers, params};
+        return this.httpClient.get(`${SERVER}/post-comment`, options);
       })
     );
   }
