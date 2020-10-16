@@ -18,16 +18,30 @@
           <ion-thumbnail class="ownerThumbnail">
             <ion-img [src]="gistData.owner.avatar_url"></ion-img>
           </ion-thumbnail>
-          <span class="userName">{{gistData.owner.name}}/{{gistData.file_title}}</span>
+          <h1 class="userName">
+            <span>
+              {{gistData.owner.name}}
+            </span>
+            <span>
+              / 
+            </span>
+            <span>
+              {{gistData.file_title}}
+            </span>
+          </h1>
         </div>
-        <span class="createdAt">created on {{gistData.created_at | date: 'longDate'}}</span>
+        <h2 class="createdAt">
+          <span>
+            created on {{gistData.created_at | date: 'longDate'}}
+          </span>
+        </h2>
       </div>
     </ion-item>
       <ion-list class="filesList" lines="none">
         <ion-item *ngFor="let file of gistData.files">
           <div class="fileNameAndType">
-            <h1>{{file.file_name}}</h1>
-            <h2>{{file.type}}</h2>
+            <h1 class="fileName">{{file.file_name}}</h1>
+            <h2 class="fileType">{{file.type}}</h2>
           </div>
         </ion-item>
       </ion-list>

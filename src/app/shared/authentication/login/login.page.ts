@@ -55,6 +55,12 @@ export class LoginPage implements OnInit {
   githubLogin() {
     // aqui chama o metodo que vai abrir o inapp browser e pegar o codigo quando ele vier
     this.authenticationService.authenticationGithub();
+   /*  .subscribe((res) => {
+      console.log(res);
+    },
+    (error) => {
+      console.log(error);
+    }); */
     /* .subscribe((code) => {
       console.log('code loginpage');
       console.log(code);

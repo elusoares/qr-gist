@@ -87,11 +87,19 @@ export class AuthenticationService {
     );
   }
 
+  authenticationGithubOld() {
+    const headers = new HttpHeaders().set('Content-Type', 'text/html');
+    const options = {headers};
+    // return this.httpClient.get('https://github.com/login/oauth/authorize?client_id=044c62189110d6c5765b&scope=user%20gist');
+    return this.httpClient.get(`${SERVER}/authorize`);
+  }
+
 
   authenticationGithub() {
     // usa o inapp browser pra abrir o link de autenticaçao da api
-    // nao me parece certo enviar o client_id da aplicaçao cliente, mas é o que consegui fazer funcionar
+    // nao me parece certo enviar o client_id da aplicaçao cliente, mas é o que consegui fazer funcionar 
     const browser = this.inAppBrowser.create('https://github.com/login/oauth/authorize?client_id=044c62189110d6c5765b&scope=user%20gist'); 
+    // const browser = this.inAppBrowser.create(`${SERVER}/authorize`); 
     // a url de call back da api é a pagina de login 
     // entao fica esperando a url mudar pra localhost pra pegar o code
     const listener = browser.on('loadstart')

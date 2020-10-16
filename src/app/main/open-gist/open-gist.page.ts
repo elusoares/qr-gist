@@ -92,6 +92,7 @@ export class OpenGistPage implements OnInit {
     this.content.scrollToBottom(300);
   }
 
+  // busca os dados do gist no servidor/api
   getData() {
     // primeiro extraio o gist_id de route parameters
     this.router.paramMap.pipe(
@@ -110,6 +111,8 @@ export class OpenGistPage implements OnInit {
     ).subscribe((gist: any) => {
       this.gistData = gist;
       this.dataIsLoaded = true;
+    }, (error) => {
+      console.log(error);
     });
   }
 

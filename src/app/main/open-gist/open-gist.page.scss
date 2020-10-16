@@ -22,12 +22,6 @@ ion-thumbnail {
     width: 100%;
 }
 
-
-.fileTitle {
-    margin-top: 20px;
-    font-size: 22px;
-}
-
 .filesList {
     padding-top: 0;
     margin-left: 10px;
@@ -46,9 +40,29 @@ ion-thumbnail {
 }
 
 .userName {
-    margin-left: 5px;
-    font-size: 28px;
+    // margin-left: 5px;
     font-weight: bold;
+    
+}
+
+@media screen and (max-width: 600px) {
+    .userName {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .ownerThumbnail {
+        display: none;
+    }
+    
+    .createdAt {
+        font-size: 12px;
+        margin: 0;
+    }
+
+    .fileName, .fileType {
+        font-size: 16px;
+    }
 }
 
 .userName, .commentName {
@@ -85,24 +99,22 @@ ion-thumbnail {
     border-bottom-left-radius: 6px;
 }
 
-.createdAt, h2, .fileTitle, .commentsHead, .commentsBody {
+.createdAt, .fileType, .commentsHead, .commentsBody {
     color: #586069;
 }
 
 
-h1, h2 {
+.fileName, .fileType {
     margin: 0;
     
 }
 
-h1 {
-    font-size: 20px;
+.fileName {
     font-weight: bold;
     color: #2ea44f;
 }
 
-h2 {
-    font-size: 16px;
+.fileType {
     margin-left: 5px;
 }
 
